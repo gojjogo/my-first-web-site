@@ -1,0 +1,22 @@
+
+/* Header */
+#header.relative{position:relative; top:0; width:100%; clear:both; z-index:2200; transition: all 0.3s; background:#f7f7f7;}
+
+#contents h3.sub_title{font-size:25px; color:#333; margin-bottom:20px;}
+#contents.subPage{margin:60px 0;}
+
+.notice{position:relative; overflow:hidden; margin-bottom:60px;}
+.notice table.graph{border-collapse:collapse; width:100%; text-align:center;}
+.notice table.graph td{font-size:16px;}
+.notice table.graph thead{margin-bottom:1px;}
+.notice table.graph thead td{background:#f7f7f7; color:#333; padding:10px 20px; box-sizing:border-box; border:1px solid #ddd; border-bottom:1px solid #ddd;}
+.notice table.graph tbody td{border:1px solid #ddd; padding:10px 20px; box-sizing:border-box;}
+
+.textWrap{margin-bottom:60px; background:rgb(201,228,157,.1); padding:40px 0;}
+
+.listWrap{position:relative; overflow:hidden; margin-bottom:40px;}
+.listWrap table.list{border-collapse:collapse; width:100%; text-align:center;}
+.listWrap table.list td{font-size:16px;}
+.listWrap table.list thead{margin-bottom:1px;}
+.listWrap table.list thead td{background:#51b848; color:#fff; padding:10px 20px; box-sizing:border-box; border-top:none; border-bottom:1px solid #ddd;}
+.listWrap table.list tbody td{border:1px solid #ddd; border-right:0; border-left:0; padding:10px 20px; box-sizing:border-box;}
