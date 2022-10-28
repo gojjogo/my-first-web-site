@@ -1,31 +1,511 @@
-<!doctype html>
-<html>
-<head>
-  <title>study</title>
-  <meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="kr">
+<head>	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="format-detection" content="telephone=no">
+    <meta property="og:image" content="common/img/logo01.png">
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:type" content="website" />
+	<meta charset="UTF-8">
+	<title>주요관광지 전기차 충전소 추가인프라 구축을 위한 입지 분석</title>	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>	
+	<script src="common/js/TweenMax.min.js"></script>
+	<script src="common/js/slick.js"></script>
+	<script src="common/js/header.js"></script>
+	<script src="common/js/webpublisher.js"></script>
+	<link rel="stylesheet" type="text/css" href="common/css/common.css">
+	<link rel="stylesheet" type="text/css" href="common/css/main.css">
+	<!--chart-->
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+	<script src="https://code.highcharts.com/modules/variable-pie.js"></script>
 </head>
-<body>
-  hello world
-  hi <u>my name</u> is <strong>seung hee</strong>
-  nice to meet you
 
-  <h1>html이란 무엇인가?</h1>
-  <p>나는 <a href="https://www.inflearn.com/roadmaps/320" target="_blank"
-    title="web programing">웹프로그래밍</a> 공부중이다 재밌는거같다 근데 자바스크립가면 개헬이겠지??
-  흑흑흑 지금은 스타벅스인데 너무춥다 호달달</p>
-  <img src="cake.jpg" width="50%">
-  <p style="margin-top:40px;">아 오늘은 어무니 생신~ 엄마 생신 추카푸카
-  아 싸랑해요~ 아 추워~~아아먹으니까 더 춥당ㅠ</P>
-  <h1><a href="index.html">WEB</a></h1>
-  <ul>
-    <li><a href="1.html">1. HTML</a></li>
-    <li><a href="2.html">2. CSS</a></li>
-    <li><a href="3.html">3. JavaScript</a></li>
-  </ul>
-  <ol>
-    <li>고승희
-    <li>승희고
-    <li>희승고
-  </ol>
+<body>
+	<div id="header">
+		<div class="topUtile">
+			<ul>
+				<li><a href="#">HOME</a></li>
+				<li><a href="#">LOGIN</a></li>
+				<li><a href="#">MYPAGE</a></li>
+				<li><a href="#">JOINUS</a></li>
+			</ul>
+		</div>
+		<h1><a href="index.html" class="eng"><img src="common/img/logo03.png" alt=""></a></h1>
+		<div class="header_in">	
+			<div id="gnb">
+				<div id="menu">
+					<ul class="menu">
+						<li><span class="gnb_1depth"><a href="sub1.html">개요</a></span></li>
+						<li><span class="gnb_1depth"><a href="sub2.html">분석</a></span></li>
+						<li><span class="gnb_1depth"><a href="sub3.html">지역선정</a></span></li>
+						<li><span class="gnb_1depth"><a href="sub4.html">입지추천</a></span></li>
+					</ul>
+				</div>
+			</div>
+			<div class="bg"></div>
+		</div>
+	</div>
+	<div id="visual">
+		<div class="visual_txt">
+			<p class="txt"><span class="point"><i class="eng">EVision </i>프로젝트는?</span><br>주요 관광지 전기차 충전소 추가 인프라 구축을 위한입지 분석을 통해<br>전기차 활성화의 비전을 제시합니다.</p>
+		</div>
+	</div>
+	<div id="contents">
+		<div class="content01">
+			<div class="width1200">
+				<div class="statistics">
+					<ul class="iconWrap">
+						<li>
+							<dl>
+								<dt><img src="common/img/sts01.png" alt=""></dt>
+								<dd class="txt">전기차 등록 현황</dd>
+								<dd class="val" data-count="1000000">0</dd>
+							</dl>
+						</li>
+						<li>
+							<dl>
+								<dt><img src="common/img/sts02.png" alt=""></dt>
+								<dd class="txt">전기차 충전소 현황</dd>
+								<dd class="val" data-count="200000">0</dd>
+							</dl>
+						</li>
+						<li>
+							<dl>
+								<dt><img src="common/img/sts03.png" alt=""></dt>
+								<dd class="txt">신규 충전소 입지 추천</dd>
+								<dd class="val" data-count="100">0</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>				
+				<script>
+					$('.val').each(function() { // .count-num에 각각 적용
+					  var $this = $(this),
+						  countTo = $this.attr('data-count');
+						  // $this = 첫번째~세번째 .count-num
+						  // countTo = 첫번째~세번째 .count-num의 data-count 속성의 값(777,555,333)
+					  
+					  $({ countNum: $this.text()}).animate({
+						countNum: countTo 
+						// countNum: $this.text() = 0, countNum: countTo = 777, 555, 333
+						// 0에서 countNum이 된다
+					  },
+					  {
+						duration: 2000, // 애니메이션이 완료될때까지 걸리는 시간
+						easing:'linear', // 애니메이션 효과 방식
+						step: function() { // 움직임 각 스텝별로 실행될 함수
+						  $this.text(Math.floor(this.countNum));
+						  // Math.floor -> this.countNum의 값을 정수로 만들어준다
+						},
+						complete: function() { // 움직임이 멈춘 후 실행될 함수
+						  $this.text(this.countNum);
+						  // this.countNum이 $this의 text값이 된다
+						  //alert('finished');
+						}
+					  });
+
+					});
+				</script>
+			</div>
+		</div>
+		<div class="content03">
+			<div class="width1200">
+				<div class="graph">
+					<div class="graphGroup">
+						<section>
+							<h3>데이터분석</h3>
+							<div id="graph01"></div>
+							<script>
+								// Data retrieved from https://worldpopulationreview.com/country-rankings/countries-by-density
+								Highcharts.chart('graph01', {
+									chart: {
+										type: 'variablepie',
+										height: '360'
+									},
+									title: {
+										text: null
+									},
+									tooltip: {
+										headerFormat: '',
+										pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' +
+											'Area (square km): <b>{point.y}</b><br/>' +
+											'Population density (people per square km): <b>{point.z}</b><br/>'
+									},
+									series: [{
+										minPointSize: 10,
+										innerSize: '20%',
+										zMin: 0,
+										name: 'countries',
+										data: [{
+											name: 'Spain',
+											y: 505992,
+											z: 92
+										}, {
+											name: 'France',
+											y: 551695,
+											z: 119
+										}, {
+											name: 'Poland',
+											y: 312679,
+											z: 121
+										}, {
+											name: 'Czech Republic',
+											y: 78865,
+											z: 136
+										}, {
+											name: 'Italy',
+											y: 301336,
+											z: 200
+										}, {
+											name: 'Switzerland',
+											y: 41284,
+											z: 213
+										}, {
+											name: 'Germany',
+											y: 357114,
+											z: 235
+										}]
+									}]
+								});
+							</script>
+						</section>
+						<section>
+							<h3>데이터분석</h3>
+							<div id="graph02"></div>
+							<script>
+								// Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+								// Create the chart
+								Highcharts.chart('graph02', {
+									chart: {
+										type: 'column',
+										height: '360'
+									},
+									title: {
+										text: null
+									},
+									subtitle: {
+										text: null
+									},
+									xAxis: {
+										categories: [
+											'2010',
+											'2011',
+											'2012',
+											'2013',
+											'2014',
+											'2015',
+											'2016',
+											'2017',
+											'2018',
+											'2019',
+											'2020',
+											'2021'
+										],
+										crosshair: true
+									},
+									yAxis: {
+										title: {
+											useHTML: true,
+											text: 'Million tonnes CO<sub>2</sub>-equivalents'
+										}
+									},
+									tooltip: {
+										headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+										pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+											'<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+										footerFormat: '</table>',
+										shared: true,
+										useHTML: true
+									},
+									plotOptions: {
+										column: {
+											pointPadding: 0.2,
+											borderWidth: 0
+										}
+									},
+									series: [{
+										name: 'Oil and gas extraction',
+										data: [13.93, 13.63, 13.73, 13.67, 14.37, 14.89, 14.56,
+											14.32, 14.13, 13.93, 13.21, 12.16]
+
+									}, {
+										name: 'Manufacturing industries and mining',
+										data: [12.24, 12.24, 11.95, 12.02, 11.65, 11.96, 11.59,
+											11.94, 11.96, 11.59, 11.42, 11.76]
+
+									}, {
+										name: 'Road traffic',
+										data: [10.00, 9.93, 9.97, 10.01, 10.23, 10.26, 10.00,
+											9.12, 9.36, 8.72, 8.38, 8.69]
+
+									}, {
+										name: 'Agriculture',
+										data: [4.35, 4.32, 4.34, 4.39, 4.46, 4.52, 4.58, 4.55,
+											4.53, 4.51, 4.49, 4.57]
+
+									}]
+								});
+							</script>
+						</section>
+					</div>
+					<div class="graphGroup">
+						<section>
+							<h3>데이터분석</h3>
+							<div id="graph03"></div>
+							<script>
+								Highcharts.chart('graph03', {
+									chart: {
+										zoomType: 'xy',
+										height: '360'
+									},
+									title: {
+										text: null,
+										align: 'left'
+									},
+									subtitle: {
+										text: null,
+										align: 'left'
+									},
+									xAxis: [{
+										categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+											'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+										crosshair: true
+									}],
+									yAxis: [{ // Primary yAxis
+										labels: {
+											format: '{value}°C',
+											style: {
+												color: Highcharts.getOptions().colors[2]
+											}
+										},
+										title: {
+											text: 'Temperature',
+											style: {
+												color: Highcharts.getOptions().colors[2]
+											}
+										},
+										opposite: true
+
+									}, { // Secondary yAxis
+										gridLineWidth: 0,
+										title: {
+											text: 'Rainfall',
+											style: {
+												color: Highcharts.getOptions().colors[0]
+											}
+										},
+										labels: {
+											format: '{value} mm',
+											style: {
+												color: Highcharts.getOptions().colors[0]
+											}
+										}
+
+									}, { // Tertiary yAxis
+										gridLineWidth: 0,
+										title: {
+											text: 'Sea-Level Pressure',
+											style: {
+												color: Highcharts.getOptions().colors[1]
+											}
+										},
+										labels: {
+											format: '{value} mb',
+											style: {
+												color: Highcharts.getOptions().colors[1]
+											}
+										},
+										opposite: true
+									}],
+									tooltip: {
+										shared: true
+									},
+									legend: {
+										layout: 'vertical',
+										align: 'left',
+										x: 80,
+										verticalAlign: 'top',
+										y: 55,
+										floating: true,
+										backgroundColor:
+											Highcharts.defaultOptions.legend.backgroundColor || // theme
+											'rgba(255,255,255,0.25)'
+									},
+									series: [{
+										name: 'Rainfall',
+										type: 'column',
+										yAxis: 1,
+										data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+										tooltip: {
+											valueSuffix: ' mm'
+										}
+
+									}, {
+										name: 'Sea-Level Pressure',
+										type: 'spline',
+										yAxis: 2,
+										data: [1016, 1016, 1015.9, 1015.5, 1012.3, 1009.5, 1009.6, 1010.2, 1013.1, 1016.9, 1018.2, 1016.7],
+										marker: {
+											enabled: false
+										},
+										dashStyle: 'shortdot',
+										tooltip: {
+											valueSuffix: ' mb'
+										}
+
+									}, {
+										name: 'Temperature',
+										type: 'spline',
+										data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+										tooltip: {
+											valueSuffix: ' °C'
+										}
+									}],
+									responsive: {
+										rules: [{
+											condition: {
+												maxWidth: 500
+											},
+											chartOptions: {
+												legend: {
+													floating: false,
+													layout: 'horizontal',
+													align: 'center',
+													verticalAlign: 'bottom',
+													x: 0,
+													y: 0
+												},
+												yAxis: [{
+													labels: {
+														align: 'right',
+														x: 0,
+														y: -6
+													},
+													showLastLabel: false
+												}, {
+													labels: {
+														align: 'left',
+														x: 0,
+														y: -6
+													},
+													showLastLabel: false
+												}, {
+													visible: false
+												}]
+											}
+										}]
+									}
+								});
+							</script>
+						</section>
+						<section>
+							<h3>데이터분석</h3>
+							<div id="graph04"></div>
+							<script>
+								// Data retrieved https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature
+								Highcharts.chart('graph04', {
+									chart: {
+										type: 'line',
+										height: '360'
+									},
+									title: {
+										text: null
+									},
+									subtitle: {
+										text: null
+									},
+									xAxis: {
+										categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+									},
+									yAxis: {
+										title: {
+											text: 'Temperature (°C)'
+										}
+									},
+									plotOptions: {
+										line: {
+											dataLabels: {
+												enabled: true
+											},
+											enableMouseTracking: false
+										}
+									},
+									series: [{
+										name: 'Reggane',
+										data: [16.0, 18.2, 23.1, 27.9, 32.2, 36.4, 39.8, 38.4, 35.5, 29.2,
+											22.0, 17.8]
+									}, {
+										name: 'Tallinn',
+										data: [-2.9, -3.6, -0.6, 4.8, 10.2, 14.5, 17.6, 16.5, 12.0, 6.5,
+											2.0, -0.9]
+									}]
+								});
+							</script>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="banner">
+		<div class="banner_in">
+			<ul>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+			</ul>
+			<script type="text/javascript">
+				$(document).on('ready', function() {
+				  $("#banner ul").slick({
+					dots: false,
+					infinite: true,
+					arrows: true,
+					speed: 1000,
+					autoplaySpeed: 3000,
+					slidesToShow: 6,
+					slidesToScroll: 1,
+					autoplay: true,
+						responsive: [
+						{
+						  breakpoint: 640,
+						  settings: {
+							slidesToShow: 3
+						  }
+						}
+					  ]
+					  });
+				});
+			</script>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="footer_in">
+			<div class="footer_logo">
+				<img src="common/img/logo03_f.png" alt="">
+			</div>
+			<div class="footer_txt">
+				<ul>
+					<li><a href="#">개인정보처리방침</a></li>
+					<li><a href="#">찾아오시는길</a></li>
+				</ul>
+				<p>
+				글로벌캠퍼스 : (13120) 경기도 성남시 수정구 성남대로 1342 TEL.031-750-5114<br>
+				메디컬캠퍼스 : (21936) 인천광역시 연수구 함박뫼로 191 TEL.032-820-4000
+				</p>
+				<span class="copy">© 2021 Gachon University. All Rights Reserved</span>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>
