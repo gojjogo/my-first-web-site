@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>	
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="format-detection" content="telephone=no">
+    <meta property="og:image" content="common/img/logo01.png">
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="시소(SISO)" />
+	<meta property="og:url" content="http://siso-design.com">
+	<meta property="al:web:url" content="siso-design.com">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-ico">
+	<link rel="canonical" href="http://siso-design.com">
+	<meta charset="UTF-8">
+	<title>주요관광지 전기차 충전소 추가인프라 구축을 위한 입지 분석</title>	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>	
+	<script src="common/js/TweenMax.min.js"></script>
+	<script src="common/js/slick.js"></script>
+	<script src="common/js/header.js"></script>
+	<script src="common/js/webpublisher.js"></script>
+	<link rel="stylesheet" type="text/css" href="common/css/common.css">
+	<link rel="stylesheet" type="text/css" href="common/css/sub.css">
+	<!--chart-->
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+</head>
+
+<body>
+	<div id="header">
+		<h1><a href="index.html" class="eng"><img src="common/img/logo03.png" alt=""></a></h1>
+		<div class="header_in">	
+			<div id="gnb">
+				<div id="menu">
+					<ul class="menu">
+						<li><span class="gnb_1depth"><a href="summary.html">개요</a></span></li>
+						<li><span class="gnb_1depth"><a href="anal.html">분석과정</a></span></li>
+						<li><span class="gnb_1depth"><a href="local_selection.html">지역선정</a></span></li>
+						<li><span class="gnb_1depth"><a href="location_recommendation.html">입지추천</a></span></li>
+					</ul>
+				</div>
+			</div>
+			<div class="bg"></div>
+		</div>
+	</div>
+	<!-- <div id="subTitle"> -->
+		<!-- <h2>게시판</h2> -->
+		<!-- <p>게시판으로 제공된 페이지 입니다.</p> -->
+	<!-- </div> -->
+
+	<div id="contents" >
+		
+		<div id="map" style="width:100%;height:600px;"></div>
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2b30d178efe5f37196ca6178320492bc"></script>
+		<script>
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = { 
+				center: new kakao.maps.LatLng(37.88531860702045, 127.7298243925416), // 지도의 중심좌표
+				level: 4 // 지도의 확대 레벨
+			};
+
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+		var imageSrc = "common/img/charging.png", // 마커이미지의 주소입니다    
+			imageSize = new kakao.maps.Size(63, 65), // 마커이미지의 크기입니다
+			imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			
+		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+			markerPosition = new kakao.maps.LatLng(37.88531860702045, 127.7298243925416); // 마커가 표시될 위치입니다
+
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+			position: markerPosition, 
+			image: markerImage // 마커이미지 설정 
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map); 
+		
+		var iwContent = '<div style="padding:5px;">여기는 충전소:)</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    	iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+		// 인포윈도우를 생성합니다
+		var infowindow = new kakao.maps.InfoWindow({
+			content : iwContent,
+			removable : iwRemoveable
+		});
+
+		// 마커에 클릭이벤트를 등록합니다
+		kakao.maps.event.addListener(marker, 'click', function() {
+			// 마커 위에 인포윈도우를 표시합니다
+			infowindow.open(map, marker);  
+		});		
+		</script>
+	</div>
+	
+	<div id="banner">
+		<div class="banner_in">
+			<ul>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
+			</ul>
+			<script type="text/javascript">
+				$(document).on('ready', function() {
+				  $("#banner ul").slick({
+					dots: false,
+					infinite: true,
+					arrows: true,
+					speed: 1000,
+					autoplaySpeed: 3000,
+					slidesToShow: 6,
+					slidesToScroll: 1,
+					autoplay: true,
+						responsive: [
+						{
+						  breakpoint: 640,
+						  settings: {
+							slidesToShow: 3
+						  }
+						}
+					  ]
+					  });
+				});
+			</script>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="footer_in">
+			<div class="footer_logo">
+				<img src="common/img/logo03_f.png" alt="">
+			</div>
+			<div class="footer_txt">
+				<ul>
+					<li><a href="#">개인정보처리방침</a></li>
+					<li><a href="#">찾아오시는길</a></li>
+				</ul>
+				<p>
+				글로벌캠퍼스 : (13120) 경기도 성남시 수정구 성남대로 1342 TEL.031-750-5114<br>
+				메디컬캠퍼스 : (21936) 인천광역시 연수구 함박뫼로 191 TEL.032-820-4000
+				</p>
+				<span class="copy">© 2021 Gachon University. All Rights Reserved</span>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
