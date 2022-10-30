@@ -37,7 +37,8 @@ span{font:inherit; line-height:inherit}
 
 /* 레이아웃 */
 #wrap {position:relative; width:100vw; height:100vh;}
-.width1200{position:relative; width:1200px; margin:0 auto; box-sizing:border-box;}
+.width1200{position:relative; width:1200px;margin:0 auto; box-sizing:border-box;}
+.width1200 h3.sub_title{padding-top: 20px;padding-bottom: 20px;}
 .show640 {display:none !important}
 .none640 {display:block !important}
 .eng{font-family: 'GmarketSansMedium';}
