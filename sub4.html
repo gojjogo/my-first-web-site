@@ -27,18 +27,40 @@
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
 	<script src="https://code.highcharts.com/modules/export-data.js"></script>
 	<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+	<style>
+		.wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+		.wrap * {padding: 0;margin: 0;}
+		.wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+		.wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+		.info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+		.info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+		.info .close:hover {cursor: pointer;}
+		.info .body {position: relative;overflow: hidden;}
+		.info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+		.desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+		.desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+		.info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+		.info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+		.info .link {color: #5085BB;}
+	</style>
 </head>
 
 <body>
 	<div id="header">
+		<div class="topUtile">
+			<ul>
+				<li><a href="index.html">HOME</a></li>
+				<li><a href="data.html">DATA</a></li>
+			</ul>
+		</div>
 		<h1><a href="index.html" class="eng"><img src="common/img/logo03.png" alt=""></a></h1>
 		<div class="header_in">	
 			<div id="gnb">
 				<div id="menu">
 					<ul class="menu">
 						<li><span class="gnb_1depth"><a href="sub1.html">개요</a></span></li>
-						<li><span class="gnb_1depth"><a href="sub2.html">분석</a></span></li>
-						<li><span class="gnb_1depth"><a href="sub3.html">지역선정</a></span></li>
+						<li><span class="gnb_1depth"><a href="sub2.html">지역선정 및 현황</a></span></li>
+						<li><span class="gnb_1depth"><a href="sub3.html">분석</a></span></li>
 						<li><span class="gnb_1depth"><a href="sub4.html">입지추천</a></span></li>
 					</ul>
 				</div>
@@ -46,127 +68,694 @@
 			<div class="bg"></div>
 		</div>
 	</div>
-	<!-- <div id="subTitle"> -->
-		<!-- <h2>게시판</h2> -->
-		<!-- <p>게시판으로 제공된 페이지 입니다.</p> -->
-	<!-- </div> -->
-
 	<div id="contents" >
 		
 		<div id="map" style="width:100%;height:600px;"></div>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2b30d178efe5f37196ca6178320492bc"></script>
 		<script>
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-				mapOption = { 
-					center: new kakao.maps.LatLng(37.7646867,128.886832), // 지도의 중심좌표
-					level: 5 // 지도의 확대 레벨
+				mapOption = {
+					center: new kakao.maps.LatLng(37.7746867,128.898832), // 지도의 중심좌표
+					level: 7 // 지도 초기 확대레벨
 				};
+		
+			var map = new kakao.maps.Map(mapContainer, mapOption);
+		
+			// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+			var mapTypeControl = new daum.maps.MapTypeControl();
+		
+			// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+			// daum.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+			map.addControl(mapTypeControl, daum.maps.ControlPosition.TOPRIGHT);
+		
+			// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+			var zoomControl = new daum.maps.ZoomControl();
+			map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+		
+			if (navigator.geolocation) {
+    
+				// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+				navigator.geolocation.getCurrentPosition(function(position) {
+					
+					var lat = position.coords.latitude, // 위도
+						lon = position.coords.longitude; // 경도
+					
+					var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
 
-			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+					// 마커와 인포윈도우를 표시합니다
+					displayMarker(locPosition);
+					
+				});
+			} 
 
-			var positions = [
-			{
-				content: '<div></div>', 
-				latlng: new kakao.maps.LatLng(37.76548858,128.8780348)
-			},
-			{
-				content: '<div></div>', 
-				latlng: new kakao.maps.LatLng(37.76999391,128.8781185)
-			},
-			{
-				content: '<div></div>', 
-				latlng: new kakao.maps.LatLng(37.75624402,128.8977285)
-			},
-			{
-				content: '<div></div>',
-				latlng: new kakao.maps.LatLng(37.76774125,128.8780767)
-			},
-			{
-				content: '<div></div>',
-				latlng: new kakao.maps.LatLng(37.76071562,128.9006508)
+			function displayMarker(locPosition) {
+
+				// 마커를 생성합니다
+				var marker = new kakao.maps.Marker({  
+					map: map, 
+					position: locPosition
+				}); 
 			}
-			];
-			
+
+			var imageSrc1 = 'common/img/pin.png', // 마커이미지의 주소입니다    
+				imageSize1 = new kakao.maps.Size(30,35), // 마커이미지의 크기입니다
+				imageOption1 = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage1 = new kakao.maps.MarkerImage(imageSrc1, imageSize1, imageOption1),
+				markerPosition1 = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+
+			function displayMarker(locPosition) {
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({  
+				map: map, 
+				position: locPosition,
+				image: markerImage1
+			}); 
+			}
+
+			//마커시작!
+			//1번
 			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
-				imageSize = new kakao.maps.Size(50, 55), // 마커이미지의 크기입니다
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
 				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-      
+		
 			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-				markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
-
-			for (var i = 0; i < positions.length; i ++) {
-				// 마커를 생성합니다
-				var marker = new kakao.maps.Marker({
-					map: map, // 마커를 표시할 지도
-					position: positions[i].latlng, // 마커의 위치
-					image: markerImage
-				});
-
-				// 마커에 표시할 인포윈도우를 생성합니다 
-				var infowindow = new kakao.maps.InfoWindow({
-					content: positions[i].content // 인포윈도우에 표시할 내용
-				});
-
-				// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-				// 이벤트 리스너로는 클로저를 만들어 등록합니다 
-				// for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-				kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-				kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+				markerPosition = new kakao.maps.LatLng(37.77416383,128.9065816); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	1번'+ 
+            	'            <div class="close" onclick="closeOverlay_1()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.77416383,128.9065816);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_1 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_1.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_1() {
+				overlay_1.setMap(null);
 			}
-
-			// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-			function makeOverListener(map, marker, infowindow) {
-				return function() {
-					infowindow.open(map, marker);
-				};
+			
+			overlay_1.setMap(null);
+			
+			//2번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.76548858,128.8780348); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	2번'+ 
+            	'            <div class="close" onclick="closeOverlay_2()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.76548858,128.8780348);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_2 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_2.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_2() {
+				overlay_2.setMap(null);
 			}
-
-			// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-			function makeOutListener(infowindow) {
-				return function() {
-					infowindow.close();
-				};
+		
+			overlay_2.setMap(null);
+		
+			//3번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.74279527,128.8918008); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	3번'+ 
+            	'            <div class="close" onclick="closeOverlay_3()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.74279527,128.8918008);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_3 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_3.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_3() {
+				overlay_3.setMap(null);
 			}
-		</script>
+		
+			overlay_3.setMap(null);
+
+			//4번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.75419206,128.8806631); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	4번'+ 
+            	'            <div class="close" onclick="closeOverlay_4()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.75419206,128.8806631);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_4 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_4.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_4() {
+				overlay_4.setMap(null);
+			}
+		
+			overlay_4.setMap(null);
+
+			//5번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.76326907,128.8751555); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.76326907,128.8751555); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	5번'+ 
+            	'            <div class="close" onclick="closeOverlay_5()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.76326907,128.8751555);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_5 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_5.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_5() {
+				overlay_5.setMap(null);
+			}
+		
+			overlay_5.setMap(null);
+
+			//6번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.75822522,128.9204695); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	6번'+ 
+            	'            <div class="close" onclick="closeOverlay_6()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.75822522,128.9204695);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_6 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_6.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_6() {
+				overlay_6.setMap(null);
+			}
+		
+			overlay_6.setMap(null);
+
+			//7번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.77409593,128.9122574); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	7번'+ 
+            	'            <div class="close" onclick="closeOverlay_7()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.77409593,128.9122574);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_7 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_7.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_7() {
+				overlay_7.setMap(null);
+			}
+		
+			overlay_7.setMap(null);
+
+			//8번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.75389011,128.9061976); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	8번'+ 
+            	'            <div class="close" onclick="closeOverlay_8()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.75389011,128.9061976);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_8 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_8.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_8() {
+				overlay_8.setMap(null);
+			}
+		
+			overlay_8.setMap(null);
+
+			//9번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.76767473,128.8837521); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	9번'+ 
+            	'            <div class="close" onclick="closeOverlay_9()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.76767473,128.8837521);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_9 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_9.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_9() {
+				overlay_9.setMap(null);
+			}
+		
+			overlay_9.setMap(null);
+
+			//10번
+			var imageSrc = 'common/img/charging.png', // 마커이미지의 주소입니다    
+				imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
+				imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+		
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+				markerPosition = new kakao.maps.LatLng(37.79887475,128.9127292); // 마커가 표시될 위치입니다
+		
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition,
+				image: markerImage
+			});
+		
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		
+			// 커스텀 오버레이에 표시할 컨텐츠 입니다
+			var content = '<div class="wrap">' +
+				'    <div class="info">' +
+				'	 	<div class="title">' + 
+            	'            	10번'+ 
+            	'            <div class="close" onclick="closeOverlay_10()" title="닫기"></div>' +
+				'		</div>'+
+				'        <div class="body">' + 
+           		'            <div class="img">' +
+				'                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+				'           </div>' + 
+				'            <div class="desc">' + 
+				'                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+				'                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+				'                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+				'            </div>' + 
+				'        </div>' + 
+				'    </div>' +    
+				'</div>';
+			// 마커 위에 커스텀오버레이를 표시합니다
+			var position = new kakao.maps.LatLng(37.79887475,128.9127292);
+		
+			// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+			var overlay_10 = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: position,
+				yAnchor: 1
+			});
+		
+			// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+			kakao.maps.event.addListener(marker, 'click', function() {
+				overlay_10.setMap(map);
+			});
+		
+			// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+			function closeOverlay_10() {
+				overlay_10.setMap(null);
+			}
+		
+			overlay_10.setMap(null);
+			</script>
+		
 	</div>
 	
-	<div id="banner">
-		<div class="banner_in">
-			<ul>
-				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
-				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
-				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
-				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
-				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
-				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
-				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
-				<li><a href="#"><img src="common/img/logo_cl.png" alt=""></a></li>
-			</ul>
-			<script type="text/javascript">
-				$(document).on('ready', function() {
-				  $("#banner ul").slick({
-					dots: false,
-					infinite: true,
-					arrows: true,
-					speed: 1000,
-					autoplaySpeed: 3000,
-					slidesToShow: 6,
-					slidesToScroll: 1,
-					autoplay: true,
-						responsive: [
-						{
-						  breakpoint: 640,
-						  settings: {
-							slidesToShow: 3
-						  }
-						}
-					  ]
-					  });
-				});
-			</script>
-		</div>
-	</div>
 	<div id="footer">
 		<div class="footer_in">
 			<div class="footer_logo">
