@@ -135,6 +135,7 @@ span{font:inherit; line-height:inherit}
 	.content02 ul li p{position:relative; padding:20px 0;}
 	.content02 ul li p:after{position:absolute; content:""; right:-14px; top:51px; transform:rotate(-135deg); background:#fff; border-radius:10px; width:2px; height:10px;}
 	.content02 ul li p:before{position:absolute; content:""; right:-14px; top:44px; transform:rotate(135deg); background:#fff; border-radius:10px; width:2px; height:10px;}
+	
 .content2{width:100%; padding:300px 0; margin:0 auto; position:relative; overflow:hidden; 
 	background: -moz-linear-gradient(-45deg, rgba(81,185,72,0.8) 0%, rgba(164,206,57,0.8) 100%); /* FF3.6-15 */
 	background: -webkit-linear-gradient(-45deg, rgba(81,185,72,0.8) 0%,rgba(164,206,57,0.8) 100%); /* Chrome10-25,Safari5.1-6 */
