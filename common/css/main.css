@@ -52,4 +52,22 @@
 #contents .graph .graphGroup section{width:50%;}
 #contents .graph .graphGroup section h3{font-size:25px; margin-bottom:30px; color:#333;}
 
+.content02{width:100%; padding:60px 0; margin:0 auto; position:relative; overflow:hidden; 
+background: -moz-linear-gradient(-45deg, rgba(81,185,72,0.8) 0%, rgba(164,206,57,0.8) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, rgba(81,185,72,0.8) 0%,rgba(164,206,57,0.8) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, rgba(81,185,72,0.8) 0%,rgba(164,206,57,0.8) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */}
+.content02 ul{display:flex; justify-content:space-between;}
+.content02 ul li{position:relative; box-sizing:border-box; border-radius:20px; background:#fff; width:100%; margin-right:30px; text-align:center; font-weight:500; font-size:20px; color:#333; border:1px solid #ddd;}
+.content02 ul li:after{position:absolute; content:""; right:-20px; top:51px; transform:rotate(-135deg); background:#fff; border-radius:10px; width:2px; height:12px;}
+.content02 ul li:before{position:absolute; content:""; right:-20px; top:43px; transform:rotate(135deg); background:#fff; border-radius:10px; width:2px; height:12px;}
+.content02 ul li:last-child{margin-right:0;}
+.content02 ul li:last-child:after, .content02 ul li:last-child:before, .content02 ul li:last-child p:after, .content02 ul li:last-child p:before{background:none;}
+.content02 ul li p{position:relative; padding:20px 0;}
+.content02 ul li p:after{position:absolute; content:""; right:-14px; top:51px; transform:rotate(-135deg); background:#fff; border-radius:10px; width:2px; height:10px;}
+.content02 ul li p:before{position:absolute; content:""; right:-14px; top:44px; transform:rotate(135deg); background:#fff; border-radius:10px; width:2px; height:10px;}
+
+#contents .graph{display:flex; flex-direction:column; padding:30px 0;}
+#contents .graph .graphGroup{display:flex; margin:30px 0;}
+#contents .graph .graphGroup section{width:50%;}
+#contents .graph .graphGroup section h3{font-size:25px; margin-bottom:30px; color:#333;}
 
