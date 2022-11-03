@@ -44,7 +44,7 @@
 				<div id="menu">
 					<ul class="menu">
 						<li><span class="gnb_1depth"><a href="sub1.html">개요</a></span></li>
-						<li><span class="gnb_1depth"><a href="sub2.html">지역선정 및 현황</a></span></li>
+						<li><span class="gnb_1depth"><a href="sub2.html">지역선정 및 입지분석</a></span></li>
 						<li><span class="gnb_1depth"><a href="sub3.html">분석 프로세스</a></span></li>
 						<li><span class="gnb_1depth"><a href="sub4.html">입지추천</a></span></li>
 					</ul>
@@ -54,26 +54,110 @@
 		</div>
 	</div>
 	<div class="textWrap">
-		<div class="width1200">			
-			<h3 class="sub_title">🔌시도별 도시면적 대비 충전기 대수 Z-Score</h3>
-			<div class='tableauPlaceholder' id='viz1667438299273' style='position: relative'><noscript><a href='#'><img alt='대시보드 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Z-&#47;Z-Score_16664109512790&#47;1_1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Z-Score_16664109512790&#47;1_1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Z-&#47;Z-Score_16664109512790&#47;1_1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='ko-KR' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1667438299273');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='800px';vizElement.style.height='527px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='800px';vizElement.style.height='527px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-			<p style="margin-bottom:20px;"> 강원도의 Z-Score가 가장 낮게 나왔으므로 <b style="color:rgb(13, 155, 0) ;">강원도 선정</b></p>
-			
-			<h3 class="sub_title">👪 강원도 시군구별 접근지수</h3>
-			<div class='tableauPlaceholder' id='viz1667438145226' style='position: relative'><noscript><a href='#'><img alt='대시보드 2 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16664111854220&#47;2_1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='_16664111854220&#47;2_1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16664111854220&#47;2_1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='ko-KR' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1667438145226');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='800px';vizElement.style.height='527px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='800px';vizElement.style.height='527px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-			<p style="margin-bottom:20px;">강릉시의 접근지수가 가장 높게 나왔으므로 <b style="color:rgb(13, 155, 0) ;">강릉시 선정</b></p>
-			
-			<h3 class="sub_title">⚡️ 강릉시 충전소 현황</h3>	
-			<img src="common/img/mapimage1.png" width="800px" height="500px"> 
-			<P><b style="font-size: 18px;">🔋전체 완속 충전소 수 : 171개</b>
-				<br>1km내 충전소 수 - 약 7개
-				<br>2km내 충전소 수 - 약 24개
-				<br>3km내 충전소 수 - 약 45개
-				<br>
-				<br><b style="font-size: 18px;">🔋전체 급속 충전소 수:43개</b>
-				<br>1km내 충전소 수 - 약 1개
-				<br>2km내 충전소 수 - 약 4개
-				<br>3km내 충전소 수 - 약 7개</P>
+		<div class="width1200">	
+			<div>	
+				<h3 class = "sub_title"> 🗺️ 분석 지역 선정 과정</h3>
+				<p style="padding-top:0px;">
+					전국 전기차 충전소 분포 현황을 통해서 서울, 경기도, 인천 등 
+					<b style="color : rgba(255, 0, 0, 0.726);">수도권 지역에 충전소가 과밀집</b> 되어 있다는 사실을 알 수 있었음
+					<br>이것을 정확한 수치로 나타내고자 Z-score와 접근지수 산출을 진행
+				</p>
+			</div>
+			<div>
+				<h3 class="sub_title">🔌시도별 도시면적 대비 충전기 대수 Z-Score</h3>
+				<p style="padding-top:0px;"> 
+					<b>Z-Score는 표준 점수를 의미하며 평균으로부터의 거리를 구해 표준편차 상에 어떤 위치에 있는지 수치로 보여줌</b>
+				</p>
+				<div style="margin-left:100px;">
+					<div class='tableauPlaceholder' id='viz1667438299273' style='position: relative'><noscript><a href='#'><img alt='대시보드 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Z-&#47;Z-Score_16664109512790&#47;1_1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Z-Score_16664109512790&#47;1_1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Z-&#47;Z-Score_16664109512790&#47;1_1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='ko-KR' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1667438299273');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='800px';vizElement.style.height='527px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='800px';vizElement.style.height='527px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+				</div>
+				<p style="padding-top:0px;"> 
+					<br>시도별 도시 면적 대비 충전기 대수의 Z-Score 값을 구하여 가장 낮은 시도 선정
+					<br>강원도의 Z-Score가 가장 낮게 나왔으므로 <b style="color:rgb(13, 155, 0) ;">강원도 선정</b></p>
+			</div>
+			<div>
+				<h3 class="sub_title" id = "accessindex" >👪 강원도 시군구별 접근지수</h3>
+				<p style="padding-top:0px;"> 
+					<b>접근지수란 방문 효율에 인구를 곱한 것으로 사람들이 얼마나 방문하는 지에 대한 척도를 나타내는 것임
+					<br>방문 효율 = 방문객 수 / 유동인구
+					</b>
+				</p>
+				<div style="margin-left:100px;"  >
+					<div class='tableauPlaceholder' id='viz1667438145226' style='position: relative'><noscript><a href='#'><img alt='대시보드 2 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16664111854220&#47;2_1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='_16664111854220&#47;2_1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;_1&#47;_16664111854220&#47;2_1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='ko-KR' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1667438145226');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='800px';vizElement.style.height='527px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='800px';vizElement.style.height='527px';} else { vizElement.style.width='100%';vizElement.style.height='727px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+				</div>
+				<p>강릉시의 접근지수가 가장 높게 나왔으므로 <b style="color:rgb(13, 155, 0) ;">강릉시 선정</b></p>
+			</div>
+			<div>
+				<h3 class="sub_title">⚡️ 강릉시 충전소 현황</h3>	
+				<img src="common/img/mapimage1.png" width="800px" height="500px"> 
+				<P><b style="font-size: 18px;">🔋전체 완속 충전소 수 : 171개</b>
+					<br>1km내 충전소 수 - 약 7개
+					<br>2km내 충전소 수 - 약 24개
+					<br>3km내 충전소 수 - 약 45개
+					<br>
+					<br><b style="font-size: 18px;">🔋전체 급속 충전소 수:43개</b>
+					<br>1km내 충전소 수 - 약 1개
+					<br>2km내 충전소 수 - 약 4개
+					<br>3km내 충전소 수 - 약 7개</P>
+			</div>
+			<div>	
+				<h3 class = "sub_title">🗺️ 입지 분석 과정</h3>
+				<p style="padding-top:0px;">
+					지역 분석을 통해 <b>강릉시</b>를 분석 지역으로 선정
+					<br>강릉시의 교통량, 건물, 공공부지, 수요밀도 데이터를 이용하여 입지 분석 과정 진행
+				</p>
+			</div>
+			<div>	
+				<h3 class = "sub_title">🏁 격자데이터를 이용한 입지분석</h3>
+				<img src="common/img/격자분석1.png" height="400px">
+				<p style="padding-top:0px;">
+					강릉시 전체를 250x250m 격자로 나눈 데이터
+					<br>격자별 생산가능인구 수를 포함
+				</p>
+				<img src="common/img/격자분석3.png" height="400px">
+				<p style="padding-top:20px;">
+					<b>공공부지 데이터 & 교통량(점 데이터 & 선 데이터)</b>
+					<br>지오코딩을 거쳐 위경도 값이 추가된 CSV 파일들을 격자 데이터 위에 추가
+				</p>
+				<img src="common/img/격자분석4.png" height="400px">
+				<p style="padding-top:20px;">
+					<b>용도별 건물 데이터(면 데이터)</b>
+					<br>각 건물의 세부 용도와 코드가 담긴 용도별 건물 데이터를 격자 데이터 위에 추가
+				</p>
+				<img src="common/img/건물 가점 계산표.png" width="650px"height="150px">
+				<p style="padding-top:20px;">
+					<b>건물 가점 계산</b>
+					<br>건물 가점 계산을 위해서는 표준분석모델의 핵심인 건물 가점 데이터가 필요
+					<br>건물 가점 데이터는 국가에서 정한 표준으로 건물 중요도에 따라 4점척도로 가점을 매긴 데이터
+				</p>
+				<img src="common/img/입지 가중치.png" height="400px">
+				<p style="padding-top:10px;">
+					<b>건물 가점 계산</b>
+					<br>가중치 설정
+					<br>MinMaxScaler로 컬럼의 값들을 0과 1사이의 값으로 스케일링
+					<br>가중치에 따라 격자 별로 점수를 매기고 합계가 높은 순으로 정렬
+				</p>
+				<img src="common/img/입지선정.png" height="300px">
+				<p style="padding-top:10px;">
+					<b>입지분석 결과</b>
+				</p>
+			</div>
+			<div>	
+				<h3 class = "sub_title">📈 입지 분석 시각화</h3>
+				<img src="common/img/입지선정2.png" height="300px">
+				<p style="padding-top:20px;">
+					<b>상위 n개의 입지 결과 출력</b>
+				</p>
+				<img src="common/img/입지시각화.png" height="430px">
+				<p style="padding-top:20px;">
+					<b>상위 10개의 카카오 맵에 표시</b>
+				</p>
+			</div>
+			<div>	
+
+				
+				
+			</div>
 		</div>
 	</div>
 	<div id="footer">
